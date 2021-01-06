@@ -1,20 +1,11 @@
 // penny.cpp
 
 #include <iostream>
-#include <fstream>
 #include <vector>
-#include <deque>
-#include <list>
 #include <set>
 #include <map>
-#include <string>
 #include <algorithm>
-#include <iterator>
-#include <functional>
-#include <random>
-#include <tuple>
 #include <chrono>
-#include <iomanip>
 #include <stack>
 
 std::map<int, char> alpha_map
