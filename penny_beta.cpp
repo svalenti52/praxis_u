@@ -1,4 +1,6 @@
 // penny.cpp
+// praxis
+// 10-Aug-2018
 
 #include <iostream>
 #include <vector>
@@ -39,16 +41,16 @@ std::map<int, char> alpha_map
 
 std::string beta_map("ABCDEFGHIKLMNOPQRSTUVWXYZ");
 
-struct SSTK
+struct stk_elt
 {
 	int state;
 	int tx;
 	double cost;
-	SSTK(int s, int t, double c) : state(s), tx(t), cost(c) {}
+	stk_elt(int s, int t, double c) : state(s), tx(t), cost(c) {}
 };
 
-std::stack<SSTK> sstk;
-std::stack<SSTK> rev_sstk;
+std::stack<stk_elt> sstk;
+std::stack<stk_elt> rev_sstk;
 
 class Segments
 {
@@ -147,14 +149,14 @@ public:
 	{
 		while (!sstk.empty())
 		{
-			SSTK s = sstk.top();
+			stk_elt s = sstk.top();
 			rev_sstk.push(s);
 			sstk.pop();
 		}
 		
 		while (!rev_sstk.empty())
 		{
-			SSTK s = rev_sstk.top();
+			stk_elt s = rev_sstk.top();
 			sstk.push(s);
 			rev_sstk.pop();
 			int diff = s.tx - s.state;
@@ -183,14 +185,14 @@ public:
 	{
 		while (!sstk.empty())
 		{
-			SSTK s = sstk.top();
+			stk_elt s = sstk.top();
 			rev_sstk.push(s);
 			sstk.pop();
 		}
 		
 		while (!rev_sstk.empty())
 		{
-			SSTK s = rev_sstk.top();
+			stk_elt s = rev_sstk.top();
 			sstk.push(s);
 			rev_sstk.pop();
 			std::cout << beta_map[s.tx] << ' ';
@@ -225,7 +227,7 @@ public:
 
 			transit_states();
 
-			SSTK s = Pop();
+			stk_elt s = Pop();
 			state = s.state;
 			cost = s.cost;
 		}
@@ -233,14 +235,14 @@ public:
 	
 	void Push(int s, int t, double c)
 	{
-		SSTK z(s, t, c);
+		stk_elt z(s, t, c);
 		sstk.push(z);
 		duplicate_edge.Store(z.state, z.tx);
 	}
 	
-	SSTK Pop()
+	stk_elt Pop()
 	{
-		SSTK s = sstk.top();
+		stk_elt s = sstk.top();
 		sstk.pop();
 		duplicate_edge.Delete(s.state, s.tx);
 		return s;
@@ -258,9 +260,7 @@ std::ostream& operator << (std::ostream& o, const StateMachine& t)
 }
 
 int main(int argc, char** argv)
-{
-	using namespace std;
-	
+{	
 	StateMachine sm;
 	
 	sm.transit_states();
